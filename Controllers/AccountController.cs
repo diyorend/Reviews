@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Reviews.Data;
 using Reviews.Models;
 using Reviews.ViewModels;
@@ -10,23 +11,50 @@ namespace Reviews.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public AccountController(
             UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager)
+            SignInManager<AppUser> signInManager,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
         public IActionResult Index()
         {
             return View();
         }
         //register
-        public IActionResult Register()
+        [HttpGet]
+        public async Task<IActionResult> Register()
         {
-            var response = new RegisterViewModel();
-            return View(response);
+            if(!await _roleManager.RoleExistsAsync("owner"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole("owner"));
+                await _roleManager.CreateAsync(new IdentityRole("admin"));
+                await _roleManager.CreateAsync(new IdentityRole("user"));
+            }
+            List<SelectListItem> listItems = new List<SelectListItem>();
+            listItems.Add(new SelectListItem()
+            {
+                Value = "owner",
+                Text = "owner"
+            });
+            listItems.Add(new SelectListItem()
+            {
+                Value = "admin",
+                Text = "admin"
+            });
+            listItems.Add(new SelectListItem()
+            {
+                Value = "user",
+                Text = "user"
+            });
+            RegisterViewModel registerViewModel = new RegisterViewModel();
+            registerViewModel.RoleList = listItems;
+            return View(registerViewModel);
         }
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
@@ -46,6 +74,21 @@ namespace Reviews.Controllers
 
                 if(result.Succeeded)
                 {
+                    if(registerViewModel.RoleSelected != null &&
+                        registerViewModel.RoleSelected.Length > 0 &&
+                        registerViewModel.RoleSelected == "owner")
+                    {
+                        await _userManager.AddToRoleAsync(newUser, "owner");
+                    }
+                    else if(registerViewModel.RoleSelected != null &&
+                        registerViewModel.RoleSelected == "admin")
+                    {
+                        await _userManager.AddToRoleAsync(newUser, "admin");
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(newUser, "user");
+                    }
                     await _userManager.AddToRoleAsync(newUser, UserRoles.User);
                     return RedirectToAction("Index", "Home");
                 }

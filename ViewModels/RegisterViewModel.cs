@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace Reviews.ViewModels
 {
@@ -17,5 +18,7 @@ namespace Reviews.ViewModels
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Password does not match")]
         public string ConfirmPassword { get; set; }
+        public IEnumerable<SelectListItem>? RoleList { get; set; }
+        public string? RoleSelected { get; set; }
     }
 }

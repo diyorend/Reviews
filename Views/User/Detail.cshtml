@@ -1,0 +1,65 @@
+﻿@using Reviews.ViewModels;
+@model UserDetailViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">User</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="User" asp-action="Edit"
+               class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> &nbsp;
+                Edit User
+            </a>
+            <a asp-controller="User" asp-action="Delete"
+               class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> &nbsp;
+                Delete User
+            </a>
+        </div>
+
+
+    </div>
+    <br /><br />
+    <div>
+        <h3>@Model.UserName</h3>
+        <h3>@Model.FirstName</h3>
+        <h3>@Model.LastName</h3>
+        <p>@Model.ProfileImagesUrl</>
+        <h4>@Model.Email</h4>
+    </div>
+
+
+<br /><br />
+
+<table class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>Review Name</th>
+            <th>Group</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model.Reviews)
+        {
+            <tr>
+                <td width="50%">@obj.Name</td>
+                <td>@obj.Group</td>
+                <td>
+                    <div>
+                        @obj.CreatedAt
+                    </div>
+                    <div>
+                        @obj.Likes
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

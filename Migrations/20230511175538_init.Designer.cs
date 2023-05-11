@@ -12,7 +12,7 @@ using Reviews.Data;
 namespace Reviews.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230511051214_init")]
+    [Migration("20230511175538_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -176,6 +176,12 @@ namespace Reviews.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -198,6 +204,9 @@ namespace Reviews.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("ProfileImagesUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -271,6 +280,9 @@ namespace Reviews.Migrations
 
                     b.Property<int>("Group")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImagesUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Likes")
                         .HasColumnType("int");
