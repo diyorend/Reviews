@@ -92,7 +92,7 @@ namespace Reviews.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Register", "Account");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

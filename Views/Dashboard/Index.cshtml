@@ -1,0 +1,14 @@
+﻿@using Reviews.ViewModels;
+@model DashboardViewModel
+
+<div>
+    <h2>Dashboard</h2>
+</div>
+<h4>@Model.AppUser.UserName</h4>
+<div>
+    <input asp-for="AppUser.Email" disabled/>
+    <input asp-for="AppUser.FirstName" disabled/>
+</div>
+<div>
+    <a class="btn btn-primary" asp-controller="Dashboard" asp-action="UpdateProfile">Edit Profile</a>
+</div>
