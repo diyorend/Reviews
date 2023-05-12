@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Reviews.Data;
 using Reviews.Helpers;
+using Reviews.Initializer;
 using Reviews.Interfaces;
 using Reviews.Models;
 using Reviews.Repositories;
@@ -18,6 +19,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 //cloudinary img
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.Configure<CloudinarySettings>(
